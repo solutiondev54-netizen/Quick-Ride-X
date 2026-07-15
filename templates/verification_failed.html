@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification Failed – QuickRideX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+
+<body>
+    <div class="auth-wrapper">
+
+        <div class="auth-card fade-in">
+
+            <div class="logo-circle" style="background: rgba(255, 70, 70, 0.15);">
+                ❗
+            </div>
+
+            <h2 class="title">Verification Failed</h2>
+
+            <p class="subtitle">
+                The verification link is invalid or has expired.
+            </p>
+
+            <p class="info-text">
+                You can request a new verification email.
+            </p>
+
+            <form action="{{ url_for('resend_verification') }}" method="POST">
+                <button type="submit" class="btn-primary">Resend Verification Email</button>
+            </form>
+
+            <a href="{{ url_for('login') }}" class="back-link">← Back to Login</a>
+
+        </div>
+
+        <footer class="auth-footer">
+            © 2025 QuickRideX Technologies. All Rights Reserved.
+        </footer>
+
+    </div>
+</body>
+</html>

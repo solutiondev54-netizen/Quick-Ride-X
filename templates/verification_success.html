@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verified – QuickRideX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+
+<body>
+    <div class="auth-wrapper">
+
+        <div class="auth-card fade-in">
+
+            <div class="logo-circle">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="QuickRideX Logo">
+            </div>
+
+            <h2 class="title">Email Verified 🎉</h2>
+
+            <p class="subtitle">
+                Your QuickRideX account has been successfully verified.
+            </p>
+
+            <p class="info-text">
+                You can now log in and start using your account.
+            </p>
+
+            <a href="{{ url_for('login') }}" class="btn-primary" style="display:block;text-align:center;">Go to Login</a>
+
+        </div>
+
+        <footer class="auth-footer">
+            © 2025 QuickRideX Technologies. All Rights Reserved.
+        </footer>
+
+    </div>
+</body>
+</html>

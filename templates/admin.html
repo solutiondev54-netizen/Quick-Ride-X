@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Admin — QuickRideX{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-4 text-center text-primary fw-bold">Admin Dashboard</h2>
+
+  <div class="alert alert-info">
+    <strong>Welcome, Admin!</strong> Manage users, view transactions, and monitor platform activities here.
+  </div>
+
+  <!-- Example Stats -->
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card border-success shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Total Users</h5>
+          <p class="display-6 fw-bold text-success">124</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card border-primary shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Active Drivers</h5>
+          <p class="display-6 fw-bold text-primary">42</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card border-warning shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Pending Payments</h5>
+          <p class="display-6 fw-bold text-warning">₵15,300</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example Management Table -->
+  <div class="mt-5">
+    <h4 class="fw-semibold mb-3">Recent Registrations</h4>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Name</th>
+            <th>Country</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Joined</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>John Doe</td>
+            <td>Nigeria</td>
+            <td>Driver</td>
+            <td><span class="badge bg-success">Active</span></td>
+            <td>2025-10-15</td>
+          </tr>
+          <tr>
+            <td>Ama Boateng</td>
+            <td>Ghana</td>
+            <td>Customer</td>
+            <td><span class="badge bg-warning">Pending</span></td>
+            <td>2025-10-17</td>
+          </tr>
+          <tr>
+            <td>Peter Otieno</td>
+            <td>Kenya</td>
+            <td>Driver</td>
+            <td><span class="badge bg-danger">Suspended</span></td>
+            <td>2025-10-18</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

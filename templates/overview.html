@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuperAdmin Overview | QuickRideX</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0f172a;
+            color: #f8fafc;
+            overflow-x: hidden;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        header {
+            text-align: center;
+            padding: 25px;
+            font-size: 2rem;
+            font-weight: 600;
+            background-color: #1e293b;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            padding: 30px 40px;
+            max-width: 1300px;
+            margin: auto;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #1a2d4d, #0f172a);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h3 {
+            color: #93c5fd;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .filter {
+            text-align: right;
+            margin-bottom: 15px;
+        }
+
+        .filter select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            background-color: #1e293b;
+            color: white;
+            border: 1px solid #334155;
+        }
+
+        canvas {
+            margin-top: 40px;
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            background-color: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #334155;
+        }
+
+        tr:nth-child(even) {
+            background-color: #0f172a;
+        }
+
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            header { font-size: 1.5rem; padding: 15px; }
+            .container { padding: 20px; }
+            p { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>QuickRideX SuperAdmin Overview</header>
+
+    <div class="container">
+        <div class="stats">
+            <div class="card">
+                <h3>Total Verified Users</h3>
+                <p id="users-count" data-count="{{ active_users }}">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Total Rides</h3>
+                <p id="rides-count" data-count="{{ total_rides }}">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Total Revenue</h3>
+                <p id="revenue-count" data-count="{{ total_revenue }}">$0</p>
+            </div>
+        </div>
+
+        <div class="filter">
+            <label for="filter">Show: </label>
+            <select id="filter" onchange="filterData(this.value)">
+                <option value="7">Last 7 days</option>
+                <option value="30">Last 30 days</option>
+                <option value="90">Last 90 days</option>
+            </select>
+        </div>
+
+        <canvas id="revenueChart"></canvas>
+
+        <h2>Recent Ride Activity</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rider</th>
+                    <th>Driver</th>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Fare</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in rides %}
+                <tr>
+                    <td>{{ r[1] }}</td>
+                    <td>{{ r[3] }}</td>
+                    <td>{{ r[4] }}</td>
+                    <td>{{ r[5] }}</td>
+                    <td>${{ r[6] }}</td>
+                    <td>{{ r[7] }}</td>
+                    <td>{{ r[8] }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="7" style="text-align:center;">No recent rides</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Pending Driver Approvals</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Driver ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in pending_drivers %}
+                <tr>
+                    <td>{{ d[0] }}</td>
+                    <td>{{ d[1] }}</td>
+                    <td>{{ d[2] }}</td>
+                    <td>
+                        <form action="/approve_driver/{{ d[0] }}" method="post" style="display:inline;">
+                            <button type="submit" style="background:#22c55e;border:none;color:white;padding:6px 10px;border-radius:6px;">Approve</button>
+                        </form>
+                        <form action="/reject_driver/{{ d[0] }}" method="post" style="display:inline;">
+                            <button type="submit" style="background:#ef4444;border:none;color:white;padding:6px 10px;border-radius:6px;">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4" style="text-align:center;">No pending drivers</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <footer>© 2025 QuickRideX SuperAdmin Dashboard</footer>
+
+    <script>
+        // Animate counts
+        document.querySelectorAll('[data-count]').forEach(el => {
+            const target = +el.getAttribute('data-count');
+            let count = 0;
+            const speed = 20;
+            const update = () => {
+                if (count < target) {
+                    count += Math.ceil(target / 100);
+                    el.textContent = count.toLocaleString();
+                    setTimeout(update, speed);
+                } else {
+                    el.textContent = target.toLocaleString();
+                }
+            };
+            update();
+        });
+
+        // Example chart (dummy data)
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Revenue ($)',
+                    data: [120, 150, 180, 220, 200, 250, 300],
+                    borderColor: '#60a5fa',
+                    backgroundColor: 'rgba(96,165,250,0.2)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                plugins: { legend: { display: true } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    </script>
+</body>
+</html>

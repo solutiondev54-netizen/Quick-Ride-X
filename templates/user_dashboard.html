@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard | QuickRideX</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+  /* 🟦 Total Rides Glow Animation */
+.total-rides {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #0d6efd; /* Bootstrap primary blue */
+  animation: glowRides 2s infinite ease-in-out;
+}
+
+@keyframes glowRides {
+  0% { text-shadow: 0 0 5px rgba(13, 110, 253, 0.3); }
+  50% { text-shadow: 0 0 15px rgba(13, 110, 253, 0.8); }
+  100% { text-shadow: 0 0 5px rgba(13, 110, 253, 0.3); }
+}
+
+/* 🟧 Pending Rides Glow Animation */
+.pending-rides {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #fd7e14; /* Bright orange */
+  animation: glowPending 2s infinite ease-in-out;
+}
+
+@keyframes glowPending {
+  0% { text-shadow: 0 0 5px rgba(253, 126, 20, 0.3); }
+  50% { text-shadow: 0 0 15px rgba(253, 126, 20, 0.8); }
+  100% { text-shadow: 0 0 5px rgba(253, 126, 20, 0.3); }
+}
+    body {
+      background: #f8f9fa;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .card {
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .balance {
+  font-size: 2rem;
+  font-weight: 600;
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+/* 💵 Wallet Balance Glow Animation */
+@keyframes pulseGlow {
+  0% { text-shadow: 0 0 5px rgba(0, 255, 136, 0.3); }
+  50% { text-shadow: 0 0 15px rgba(0, 255, 136, 0.8); }
+  100% { text-shadow: 0 0 5px rgba(0, 255, 136, 0.3); }
+}
+
+    /* ✅ Verified badge (blue tick with glow) */
+.verified-badge {
+  color: #1DA1F2;
+  font-size: 20px;
+  margin-left: 6px;
+  text-shadow: 0 0 8px rgba(29, 161, 242, 0.8);
+  animation: glowBlue 1.5s infinite alternate;
+}
+
+@keyframes glowBlue {
+  from { text-shadow: 0 0 6px rgba(29, 161, 242, 0.8); }
+  to { text-shadow: 0 0 12px rgba(29, 161, 242, 1); }
+}
+
+/* ✅ Business class badge (gold star with glow) */
+.gold-badge {
+  color: #FFD700;
+  font-size: 20px;
+  margin-left: 6px;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+  animation: glowGold 1.5s infinite alternate;
+}
+
+@keyframes glowGold {
+  from { text-shadow: 0 0 6px rgba(255, 215, 0, 0.8); }
+  to { text-shadow: 0 0 12px rgba(255, 215, 0, 1); }
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="container py-5">
+    <!-- 👤 USER INFO SECTION -->
+    <div class="text-center mb-4">
+      <h1 class="fw-bold">
+        Welcome, {{ fullname }}
+        {% if verified == 1 %}
+          <span class="verified-badge" title="Verified User">✔️</span>
+        {% elif verified == 2 %}
+          <span class="gold-badge" title="Business Elite">★</span>
+        {% endif %}
+      </h1>
+      <p class="text-muted">{{ country }}</p>
+    </div>
+
+    <!-- 💰 STATS CARDS -->
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card text-center p-4">
+          <h5 class="text-muted">Wallet Balance</h5>
+          <p class="balance text-success">₦{{ balance }}</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card text-center p-4">
+          <h5 class="text-muted">Total Rides</h5>
+          <p class="balance text-primary">{{ total_rides }}</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card text-center p-4">
+          <h5 class="text-muted">Status</h5>
+          <p class="balance text-warning">Active</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🚪 BUTTONS -->
+    <div class="text-center mt-5">
+      <a href="{{ url_for('wallet') }}" class="btn btn-success px-4 py-2">View Wallet</a>
+      <a href="{{ url_for('logout') }}" class="btn btn-outline-danger px-4 py-2 ms-2">Logout</a>
+    </div>
+  </div>
+  <div id="notifications" class="alert alert-warning text-dark fw-bold"
+     style="display:none; background:linear-gradient(90deg,#FFD700,#fff,#FFD700);border:none;color:#000;">
+</div>
+
+<script>
+async function checkFounderStatus() {
+  try {
+    const res = await fetch('/check_founder_status');
+    const data = await res.json();
+    if (data.founder_active) {
+      showFounderToast(`👑 Founder is viewing the ${data.dashboard} dashboard`);
+    }
+  } catch (err) {
+    console.error('Error checking founder status:', err);
+  }
+}
+
+function showFounderToast(message) {
+  const oldToast = document.getElementById('founder-toast');
+  if (oldToast) oldToast.remove();
+
+  const toast = document.createElement('div');
+  toast.id = 'founder-toast';
+  toast.innerHTML = message;
+  Object.assign(toast.style, {
+    position: 'fixed',
+    bottom: '20px',
+    right: '20px',
+    background: 'linear-gradient(90deg, #FFD700, #C0A000)',
+    color: '#000',
+    padding: '12px 18px',
+    borderRadius: '10px',
+    boxShadow: '0 0 8px rgba(255,215,0,0.6)',
+    fontWeight: '600',
+    zIndex: '9999'
+  });
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.remove(), 7000);
+}
+
+setInterval(checkFounderStatus, 10000);
+</script>
+</body>
+</html>

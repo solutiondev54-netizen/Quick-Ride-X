@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Admins</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+
+<body class="bg-gray-950 text-gray-100 font-sans min-h-screen">
+
+<!-- Header -->
+<div class="bg-gradient-to-r from-blue-900 via-indigo-800 to-gray-900 shadow-2xl px-8 py-6 flex items-center justify-between">
+    <h1 class="text-2xl font-bold text-blue-300">🧑‍💼 Manage Admin Accounts</h1>
+    <a href="{{ url_for('overview') }}" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-lg transition transform hover:scale-105">← Back to Dashboard</a>
+</div>
+
+<!-- Content Container -->
+<div class="container mx-auto mt-10 px-6">
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="mb-4 p-4 rounded-lg shadow-md text-sm {{ 'bg-green-800 text-green-100' if category == 'success' else 'bg-red-800 text-red-100' }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Add New Admin -->
+    <div class="bg-gray-900 p-6 rounded-xl shadow-lg mb-8 border border-gray-800">
+        <h2 class="text-xl font-semibold text-blue-300 mb-4">➕ Add New Admin</h2>
+        <form method="POST" action="{{ url_for('add_admin') }}" class="space-y-4">
+            <input type="email" name="email" placeholder="Admin Email" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:ring-2 focus:ring-blue-500" required>
+            <input type="password" name="password" placeholder="Password" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:ring-2 focus:ring-blue-500" required>
+            <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition transform hover:scale-105">Add Admin</button>
+        </form>
+    </div>
+
+    <!-- Admin List -->
+    <div class="bg-gray-900 p-6 rounded-xl shadow-lg border border-gray-800">
+        <h2 class="text-xl font-semibold text-blue-300 mb-4">👥 Existing Admins</h2>
+
+        {% if admins %}
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="border-b border-gray-700 text-gray-400">
+                    <th class="p-3">ID</th>
+                    <th class="p-3">Email</th>
+                    <th class="p-3">Role</th>
+                    <th class="p-3">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admin in admins %}
+                <tr class="border-b border-gray-800 hover:bg-gray-800 transition">
+                    <td class="p-3">{{ admin[0] }}</td>
+                    <td class="p-3">{{ admin[1] }}</td>
+                    <td class="p-3">{{ admin[2] }}</td>
+                    <td class="p-3">
+                        {% if admin[2] != 'SuperAdmin' %}
+                        <a href="{{ url_for('delete_admin', admin_id=admin[0]) }}" class="px-3 py-2 bg-red-700 hover:bg-red-800 text-white rounded-lg shadow transition transform hover:scale-105">❌ Remove</a>
+                        {% else %}
+                        <span class="text-gray-500 italic">Protected</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-gray-400 italic">No admins available yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>

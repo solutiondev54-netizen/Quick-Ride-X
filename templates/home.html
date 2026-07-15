@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+  <h1 class="fw-bold text-dark mb-3">Welcome to QuickRideX</h1>
+  <p class="lead text-muted">Your trusted online Okada booking and logistics solution.</p>
+
+  {% if not session.get('user_id') %}
+    <a href="{{ url_for('register') }}" class="btn btn-success btn-lg mt-4">Get Started</a>
+  {% else %}
+    <a href="{{ url_for('overview') }}" class="btn btn-primary btn-lg mt-4">Go to Dashboard</a>
+  {% endif %}
+</div>
+{% endblock %}

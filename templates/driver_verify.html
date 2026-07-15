@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Driver Verification{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+          <h3 class="mb-3 text-center fw-bold">🚗 Driver Verification</h3>
+          <p class="text-muted text-center mb-4">
+            Please provide your driver and vehicle information.
+            Admin will review and grant your permission once verified.
+          </p>
+
+          <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">License Number</label>
+              <input type="text" name="license_number" class="form-control" required placeholder="Enter driver’s license number">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Vehicle Type</label>
+              <select name="vehicle_type" class="form-select" required>
+                <option value="">Select Vehicle Type</option>
+                <option>Motorbike</option>
+                <option>Tricycle</option>
+                <option>Car</option>
+                <option>Truck</option>
+                <option>Van</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Plate Number</label>
+              <input type="text" name="plate_number" class="form-control" required placeholder="Enter plate number">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Upload Driver’s License / Vehicle Doc (PNG, JPG, PDF)</label>
+              <input type="file" name="doc" class="form-control" accept=".png,.jpg,.jpeg,.pdf" required>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg">🚀 Submit Verification Request</button>
+            </div>
+          </form>
+
+          <p class="text-center mt-4">
+            <a href="{{ url_for('driver_dashboard') }}" class="text-decoration-none">← Back to Dashboard</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

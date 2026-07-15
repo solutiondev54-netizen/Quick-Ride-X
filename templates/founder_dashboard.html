@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Founder Dashboard | QuickRideX</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0b0b0c, #1a1a1c);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background: linear-gradient(90deg, #FFD700, #C0A000);
+      color: #000;
+      padding: 18px;
+      font-size: 1.5em;
+      font-weight: 700;
+      letter-spacing: 1px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    .badge {
+      background: #FFD700;
+      color: #000;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 6px 10px;
+      margin-left: 8px;
+    }
+    .container {
+      margin: 40px auto;
+      max-width: 800px;
+    }
+    .card {
+      background: #111;
+      border: 1px solid #FFD700;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+      padding: 25px;
+      margin: 20px auto;
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 35px rgba(255, 215, 0, 0.3);
+    }
+    .btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #FFD700, #C0A000);
+      color: #000;
+      font-weight: 600;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      margin: 8px;
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+    .btn:hover {
+      background: linear-gradient(90deg, #FFF78A, #FFD700);
+      transform: scale(1.05);
+    }
+    footer {
+      margin-top: 50px;
+      color: #bbb;
+      font-size: 0.9em;
+      padding-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    👑 QuickRideX Founder Dashboard
+    <span class="badge">Verified Founder</span>
+  </header>
+
+  <div class="container">
+    <h2>Welcome Back, {{ founder_name }}</h2>
+    <p style="color:#FFD700;">Access Level: Full System Oversight</p>
+
+<!-- Premium Founder Access Button -->
+<div style="text-align:center; margin: 25px 0;">
+  <a href="/founder_dashboard" class="founder-btn">👑 Access Founder Dashboard</a>
+</div>
+
+<style>
+  .founder-btn {
+    display: inline-block;
+    padding: 14px 28px;
+    background: linear-gradient(90deg, gold, #ffcc33);
+    color: #000;
+    font-weight: 700;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 25px rgba(255,215,0,0.4), inset 0 0 10px rgba(255,255,255,0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .founder-btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: skewX(-30deg);
+    transition: left 0.6s ease;
+  }
+
+  .founder-btn:hover::after {
+    left: 150%;
+  }
+
+  .founder-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px gold;
+  }
+
+  .founder-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 0 20px #ffd700;
+  }
+</style>
+
+    <div class="card">
+      <h3>Total Users: {{ total_users }}</h3>
+      <h3>Total Drivers: {{ total_drivers }}</h3>
+      <h3>Total Rides: {{ total_rides }}</h3>
+      <h3>Total Wallet Balance: ₦{{ total_wallets }}</h3>
+    </div>
+
+    <div>
+      <a href="{{ url_for('overview') }}" class="btn">📊 Overview Dashboard</a>
+      <a href="{{ url_for('driver_dashboard') }}" class="btn">🚘 Driver Dashboard</a>
+      <a href="{{ url_for('user_dashboard') }}" class="btn">👥 User Dashboard</a>
+    </div>
+
+    <p style="margin-top:20px;color:#888;">All dashboards auto-verify your Founder status on entry 💫</p>
+  </div>
+
+  <footer>
+    © 2025 QuickRideX Technologies. All Rights Reserved.
+  </footer>
+</body>
+</html>

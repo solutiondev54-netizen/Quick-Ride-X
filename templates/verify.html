@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Account — QuickRideX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+
+<body>
+
+<div class="auth-wrapper">
+
+    <div class="auth-card">
+
+        <div class="logo-circle">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="QuickRideX">
+        </div>
+
+        <h2 class="title">Verify Your Email</h2>
+        <p class="subtitle">Enter the 6-digit verification code</p>
+
+        <p class="info-text">
+            We sent a verification code to your email.<br>
+            Please enter it below to activate your account.
+        </p>
+
+        <form method="POST">
+
+            <input
+                type="text"
+                name="code"
+                maxlength="6"
+                class="input-field"
+                placeholder="Enter verification code"
+                required
+            >
+
+            <button class="btn-primary" type="submit">
+                Verify Account
+            </button>
+
+        </form>
+
+        <a href="{{ url_for('register') }}" class="back-link">
+            ← Go back to Registration
+        </a>
+
+    </div>
+
+    <div class="auth-footer">
+        © 2025 QuickRideX Technologies. All Rights Reserved.
+    </div>
+
+</div>
+
+</body>
+</html>

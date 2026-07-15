@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Founder Access | QuickRideX</title>
+  <style>
+    body {
+      background: radial-gradient(circle at top, #000000, #0a0a0a, #111);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+    }
+    .login-box {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px gold;
+      text-align: center;
+      width: 320px;
+    }
+    h2 {
+      font-size: 1.8em;
+      color: gold;
+      text-shadow: 0 0 20px #ffcc00;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      background: #1a1a1a;
+      color: #fff;
+      font-size: 0.95em;
+      outline: none;
+    }
+    .btn {
+      width: 100%;
+      background: linear-gradient(90deg, #FFD700, #FFB800);
+      border: none;
+      padding: 12px;
+      font-weight: 700;
+      font-size: 1em;
+      color: #000;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      margin-top: 5px;
+    }
+    .btn:hover {
+      background: linear-gradient(90deg, #FFE45C, #FFD700);
+      box-shadow: 0 0 20px gold;
+      transform: scale(1.03);
+    }
+    .toggle {
+      position: absolute;
+      right: 35px;
+      margin-top: -37px;
+      cursor: pointer;
+      font-size: 0.9em;
+      color: #FFD700;
+    }
+    .footer {
+      color: gold;
+      font-size: 0.85em;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <h2>👑 Founder Access</h2>
+    <p style="color: #bbb;">Exclusive entry for the system creator</p>
+
+    <form action="{{ url_for('founder_login') }}" method="POST">
+      <input type="email" name="email" placeholder="Founder Email" required>
+      <input type="password" name="access_key" id="accessKey" placeholder="Access Key" required>
+      <span class="toggle" onclick="toggleKey()">👁 Show</span>
+      <button type="submit" class="btn">Enter Founder Space</button>
+    </form>
+
+    <div class="footer">🌟 Verified Founder Portal</div>
+  </div>
+
+  <script>
+    function toggleKey() {
+      const field = document.getElementById('accessKey');
+      const toggle = document.querySelector('.toggle');
+      if (field.type === 'password') {
+        field.type = 'text';
+        toggle.textContent = '🙈 Hide';
+      } else {
+        field.type = 'password';
+        toggle.textContent = '👁 Show';
+      }
+    }
+  </script>
+</body>
+</html>
